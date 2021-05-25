@@ -1,0 +1,97 @@
+Code in TinkerCad
+
+// C++ code
+//
+void setup() {
+ pinMode(13, OUTPUT); }
+void loop() {
+ digitalWrite(13, HIGH);
+ delay(1000); // Wait for 1000 millisecond(s)
+ digitalWrite(13, LOW);
+ delay(1000); // Wait for 1000 millisecond(s) }Code2
+#include <Servo.h>
+int pirsensor = 0;
+byte trigPin = 3;
+byte echoPin = 4;
+byte LED = 5;
+long duration;
+int distance;
+int pos2 =90;
+int pos1 =0;
+Servo servo_8;
+Servo servo_6;
+Servo servo_1;
+int baselineTemp = 0;
+int celsius = 0;
+int fahrenheit = 0;
+void setup() {
+ pinMode(A0, INPUT);
+ pinMode(11, OUTPUT);
+ pinMode(9, OUTPUT);
+ pinMode(10, OUTPUT);
+ pinMode(2, INPUT);
+ pinMode(13, OUTPUT);
+ servo_6.attach(6);
+ servo_1.attach(12);
+ pinMode(trigPin, OUTPUT);
+pinMode(echoPin, INPUT);
+8
+pinMode(LED, OUTPUT);
+servo_8.attach(8); }
+void loop() {
+ analogWrite(11, 255);
+ analogWrite(9, 0);
+ analogWrite(10, 0);
+ digitalWrite(trigPin, LOW);
+delayMicroseconds(2);
+digitalWrite(trigPin, HIGH)
+;
+delayMicroseconds(10);
+digitalWrite(trigPin, LOW);
+duration = pulseIn(echoPin, HIGH);
+distance= duration*0.034/2;
+Serial.println(distance);
+ pirsensor = digitalRead(2);
+ baselineTemp = 40;
+ // measure temperature in Celsius
+ celsius = map(((analogRead(A0)
+- 20) * 3.04), 0, 1023,
+-40, 125);
+ // convert to Fahrenheit
+ fahrenheit = ((celsius * 9) / 5 + 32);
+ Serial.print(celsius);
+ Serial.print(" C, ");
+ Serial.print(fahrenheit);
+ Serial.println(" F");
+ if (celsius < baselineTemp){
+ if (pirsensor == HIGH) {
+ analogWrite(11, 0);
+ analogWrite(9, 255);
+ analogWrite(10, 0);
+ digitalWrite(13, HIGH);
+ servo_1.write(270);
+ servo_6.write(0);
+ delay(1000); // Wait for 5000 millisecond(s)
+ } else {
+ analogWrite(11, 255);
+ analogWrite(9, 0);
+ analogWrite(10, 0);
+ digitalWrite(13, LOW);
+ servo_6.write(90);
+ servo_1.write(90);
+ delay(1000); // Wait for 1000 millisecond(s)
+
+}
+if (distance <=15) {
+servo_8.write(pos2);
+9
+digitalWrite(LED, HIGH);
+}
+else
+{
+servo_8.write(pos1);
+digitalWrite(LED, LOW);
+}
+delay(1000);
+ }
+}
